@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sensor-metrics-config
+data:
+  SENSOR_TEMP_URL: "http://url1"
+  SENSOR_PRESS_URL: "http://url2"
+  PUSHGATEWAY_URL: "http://url3"
+  POLL_INTERVAL: "10"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sensor-metrics-secret
+type: Opaque
+data:
+  USERNAME: username
+  PASSWORD: password

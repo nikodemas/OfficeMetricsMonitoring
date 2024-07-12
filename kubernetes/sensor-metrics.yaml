@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-metrics-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-metrics-service
+  template:
+    metadata:
+      labels:
+        app: sensor-metrics-service
+    spec:
+      containers:
+      - name: sensor-metrics-service
+        image: ntuckus/sensor-metrics-service:latest
+        envFrom:
+        - configMapRef:
+            name: sensor-metrics-config
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sensor-metrics-secret
+              key: USERNAME
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sensor-metrics-secret
+              key: PASSWORD
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+
