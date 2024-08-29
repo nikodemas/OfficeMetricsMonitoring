@@ -9,6 +9,6 @@ def push_metrics_to_pushgateway(pushgateway_url, metric_name, metric_value, metr
     push_to_gateway(
         pushgateway_url,
         job=metric_name,
-        grouping_key={'sensor': 'esp32', 'type': metric_type},
+        grouping_key={'type': metric_type},
         registry=registry
     )
