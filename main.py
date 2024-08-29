@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 
@@ -22,32 +23,37 @@ LONGITUDE = os.getenv('LONGITUDE')
 PUSHGATEWAY_URL = os.getenv('PUSHGATEWAY_URL')
 POLL_INTERVAL = int(os.getenv('POLL_INTERVAL', 60))  # Polling interval in seconds, default is 60 seconds
 
+logging.basicConfig(
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 
 def fetch_and_push_sensor_data():
     for metric_type, url in SENSOR_URLS.items():
         try:
             data = get_sensor_data(url, USERNAME, PASSWORD)
-            print(f"Fetched inside {metric_type}: {data['value']}", flush=True)
+            logging.info(f"Fetched inside {metric_type}: {data['value']}")
             push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'sensor_metrics', data['value'], metric_type)
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching {metric_type} data: {e}", flush=True)
+            logging.error(f"Error fetching {metric_type} data: {e}")
         except Exception as e:
-            print(f"Error pushing {metric_type} metrics: {e}", flush=True)
+            logging.error(f"Error pushing {metric_type} metrics: {e}")
 
 
 def fetch_and_push_weather_data():
     try:
         temperature, pressure = get_weather_data(LATITUDE, LONGITUDE)
         if temperature is not None:
-            print(f"Fetched outside temperature: {temperature}", flush=True)
+            logging.info(f"Fetched outside temperature: {temperature}")
             push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'weather_metrics', temperature, 'temperature')
         if pressure is not None:
-            print(f"Fetched outside pressure: {pressure}", flush=True)
+            logging.info(f"Fetched outside pressure: {pressure}")
             push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'weather_metrics', pressure, 'pressure')
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching weather data: {e}", flush=True)
+        logging.error(f"Error fetching weather data: {e}")
     except Exception as e:
-        print(f"Error pushing weather metrics: {e}", flush=True)
+        logging.error(f"Error pushing weather metrics: {e}")
 
 
 def run_service():
@@ -55,7 +61,7 @@ def run_service():
         fetch_and_push_sensor_data()
         fetch_and_push_weather_data()
 
-        print(f"Metrics pushed to Pushgateway at {PUSHGATEWAY_URL}", flush=True)
+        logging.info(f"Metrics pushed to Pushgateway at {PUSHGATEWAY_URL}")
         time.sleep(POLL_INTERVAL)
 
 
