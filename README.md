@@ -1,10 +1,13 @@
 # Sensor Metrics Service
 
-This project fetches temperature and pressure metrics from ESP322 sensor and pushes them to a Prometheus Pushgateway. It runs as a service on Kubernetes.
+This project fetches temperature and pressure metrics from ESP322 sensor and open-meteo API and pushes them to a Prometheus Pushgateway. It runs as a service on Kubernetes.
 
 ## Structure
 
-- `sensor_metrics_service.py`: Main script to fetch and push metrics.
+- `main.py`: Driver script.
+- `sensor_query.py`: Module to fetch sensor data.
+- `weather_query.py`: Module to fetch weather data.
+- `pushgateway_client.py`: Module to push metrics to Prometheus Pushgateway.
 - `Dockerfile`: Dockerfile to build the image.
 - `requirements.txt`: Python dependencies.
 - `kubernetes/`: Directory containing Kubernetes manifests.
@@ -29,5 +32,5 @@ export SENSOR_TEMP_URL=http://url
 ...
 
 # run the service
-python sensor_metrics_service.py
+python main.py
 ```

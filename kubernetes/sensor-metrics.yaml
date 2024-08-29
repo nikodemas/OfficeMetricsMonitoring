@@ -18,6 +18,8 @@ spec:
         envFrom:
         - configMapRef:
             name: sensor-metrics-config
+        - configMapRef:
+            name: weather-metrics-config
         env:
         - name: USERNAME
           valueFrom:

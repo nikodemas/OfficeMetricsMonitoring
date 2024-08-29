@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Run sensor_metrics_service.py when the container launches
-CMD ["python", "sensor_metrics_service.py"]
+CMD ["python", "main.py"]

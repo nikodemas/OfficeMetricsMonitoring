@@ -1,2 +1,3 @@
-requests
+openmeteo-requests
 prometheus_client
+requests
