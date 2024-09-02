@@ -10,22 +10,23 @@ from weather_query import get_weather_data
 
 # Configuration for the sensor metrics
 SENSOR_URLS = {
-    'temperature': os.getenv('SENSOR_TEMP_URL'),
-    'pressure': os.getenv('SENSOR_PRESS_URL')
+    "temperature": os.getenv("SENSOR_TEMP_URL"),
+    "pressure": os.getenv("SENSOR_PRESS_URL"),
 }
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('PASSWORD')
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
 
 # Latitude and longitude of the location for weather data
-LATITUDE = os.getenv('LATITUDE')
-LONGITUDE = os.getenv('LONGITUDE')
+LATITUDE = os.getenv("LATITUDE")
+LONGITUDE = os.getenv("LONGITUDE")
 
-PUSHGATEWAY_URL = os.getenv('PUSHGATEWAY_URL')
-POLL_INTERVAL = int(os.getenv('POLL_INTERVAL', 60))  # Polling interval in seconds, default is 60 seconds
+PUSHGATEWAY_URL = os.getenv("PUSHGATEWAY_URL")
+
+# Polling interval in seconds, default is 60 seconds
+POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", 60))
 
 logging.basicConfig(
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
 
@@ -34,7 +35,9 @@ def fetch_and_push_sensor_data():
         try:
             data = get_sensor_data(url, USERNAME, PASSWORD)
             logging.info(f"Fetched inside {metric_type}: {data['value']}")
-            push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'sensor_metrics', data['value'], metric_type)
+            push_metrics_to_pushgateway(
+                PUSHGATEWAY_URL, "sensor_metrics", data["value"], metric_type
+            )
         except requests.exceptions.RequestException as e:
             logging.error(f"Error fetching {metric_type} data: {e}")
         except Exception as e:
@@ -46,10 +49,14 @@ def fetch_and_push_weather_data():
         temperature, pressure = get_weather_data(LATITUDE, LONGITUDE)
         if temperature is not None:
             logging.info(f"Fetched outside temperature: {temperature}")
-            push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'weather_metrics', temperature, 'temperature')
+            push_metrics_to_pushgateway(
+                PUSHGATEWAY_URL, "weather_metrics", temperature, "temperature"
+            )
         if pressure is not None:
             logging.info(f"Fetched outside pressure: {pressure}")
-            push_metrics_to_pushgateway(PUSHGATEWAY_URL, 'weather_metrics', pressure, 'pressure')
+            push_metrics_to_pushgateway(
+                PUSHGATEWAY_URL, "weather_metrics", pressure, "pressure"
+            )
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching weather data: {e}")
     except Exception as e:
