@@ -95,10 +95,10 @@ def fetch_and_push_weather_data(weather_config, pushgateway_url):
 def run_service():
     (
         sensor_config,
-        weather_config,
-        pushgateway_url,
         username,
         password,
+        weather_config,
+        pushgateway_url,
         poll_interval,
     ) = load_config()
     while True:
