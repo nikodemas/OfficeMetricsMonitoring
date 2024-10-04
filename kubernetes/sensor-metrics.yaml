@@ -32,6 +32,21 @@ spec:
                 secretKeyRef:
                   name: sensor-metrics-secret
                   key: PASSWORD
+            - name: SENSOR_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: sensor-metrics-config
+                  key: SENSOR_CONFIG
+            - name: PUSHGATEWAY_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sensor-metrics-config
+                  key: PUSHGATEWAY_URL
+            - name: POLL_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: sensor-metrics-config
+                  key: POLL_INTERVAL
           resources:
             limits:
               memory: 128Mi
