@@ -48,7 +48,8 @@ def fetch_and_push_sensor_data(sensor_config, username, password, pushgateway_ur
             try:
                 data = get_sensor_data(url, username, password)
                 logging.info(
-                    f"Fetched inside {metric_type} from sensor {sensor_name} in {office}: {data['value']}"
+                    f"Fetched inside {metric_type} from "
+                    f"sensor {sensor_name} in {office}: {data['value']}"
                 )
                 push_metrics_to_pushgateway(
                     pushgateway_url,
@@ -60,11 +61,13 @@ def fetch_and_push_sensor_data(sensor_config, username, password, pushgateway_ur
                 )
             except requests.exceptions.RequestException as e:
                 logging.error(
-                    f"Error fetching {metric_type} data from sensor {sensor_name} in {office}: {e}"
+                    f"Error fetching {metric_type} data from "
+                    f"sensor {sensor_name} in {office}: {e}"
                 )
             except Exception as e:
                 logging.error(
-                    f"Error pushing {metric_type} metrics from sensor {sensor_name} in {office}: {e}"
+                    f"Error pushing {metric_type} metrics from "
+                    f"sensor {sensor_name} in {office}: {e}"
                 )
 
 
