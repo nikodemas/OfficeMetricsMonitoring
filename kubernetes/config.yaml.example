@@ -3,8 +3,23 @@ kind: ConfigMap
 metadata:
   name: sensor-metrics-config
 data:
-  SENSOR_TEMP_URL: "http://url1"
-  SENSOR_PRESS_URL: "http://url2"
+  SENSOR_CONFIG: |
+    {
+      "sensor1": {
+        "sensor_urls": {
+          "temperature": "http://url11",
+          "pressure": "http://url12"
+        },
+        "office": "office1"
+      },
+      "sensor2": {
+        "sensor_urls": {
+          "temperature": "http://url21",
+          "pressure": "http://url22"
+        },
+        "office": "office2"
+      }
+    }
   PUSHGATEWAY_URL: "http://url3"
   POLL_INTERVAL: "60"
 ---
